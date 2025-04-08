@@ -1,4 +1,7 @@
 
+
+using backend_agendeFacil.src.users;
+
 namespace backend_agendeFacil
 {
     public static class Routers
@@ -11,14 +14,15 @@ namespace backend_agendeFacil
 
             // Tenant
             var tenantGroup = app.MapGroup("/api/{id}");
-            tenantGroup.MapGet("/schedule", (string id) => $"Tenant acessa sua agenda, {id}");
-            tenantGroup.MapGet("/solicitations", (string id) => "Lista de solicitações de agendamento");
+            tenantGroup.MapGet("/schedule", () => "Tenant acessa sua agenda");
+            tenantGroup.MapGet("/solicitations", () => "Lista de solicitações de agendamento");
 
             // User
             var userGroup = app.MapGroup("/api/user");
-            userGroup.MapGet("/{id}", (string id) => "Usuário seleciona tenant");
-                // Esse ID é o profissional e esse get retorna infos do profisisonla selecionado;
-            userGroup.MapGet("/{id}/solicitation", (string id) => "envio de form para agendamento");    
+            userGroup.MapGet("/{id:guid}", async (Guid id, UserController controller) => {
+                return await controller.GetInfoTenantAsync(id);
+            });
+            userGroup.MapPost("/{id}/solicitation", () => "envio de form para agendamento");    
                 // Envio do form para agendamento, o qual deve ser enviado para o tenant;
         }
     }
