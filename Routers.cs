@@ -13,9 +13,18 @@ namespace backend_agendeFacil
             authGroup.MapGet("/login", () => "Login!");
 
             // Tenant
-            var tenantGroup = app.MapGroup("/api/{id}");
-            tenantGroup.MapGet("/schedule", () => "Tenant acessa sua agenda");
-            tenantGroup.MapGet("/solicitations", () => "Lista de solicitações de agendamento");
+            var tenantGroup = app.MapGroup("/api/{id:guid}");
+                // Esse id virá do token
+                // Acessiveis so quando autenticadas autenticados pelo token JWT
+            tenantGroup.MapGet("/schedule", (Guid id, ScheduleController controller) => {
+                return controller.GetSchedule(id);
+            });
+            tenantGroup.MapGet("/solicitations", (Guid id, ScheduleController controller) => {
+                return controller.GetSolicitations(id);
+            });
+            tenantGroup.MapPut("/solicitations", (Guid id, Guid scheduleId, string status, ScheduleController controller) => {
+                return controller.UpdateSolicitation(id, scheduleId, status);
+            });
 
             // User
             var userGroup = app.MapGroup("/api/user");
