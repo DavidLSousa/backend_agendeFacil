@@ -1,6 +1,6 @@
 
 
-using backend_agendeFacil.src.users;
+using backend_agendeFacil.src.controllers;
 
 namespace backend_agendeFacil
 {
@@ -22,7 +22,9 @@ namespace backend_agendeFacil
             userGroup.MapGet("/{id:guid}", async (Guid id, UserController controller) => {
                 return await controller.GetInfoTenantAsync(id);
             });
-            userGroup.MapPost("/{id}/solicitation", () => "envio de form para agendamento");    
+            userGroup.MapPost("/{id:guid}", (Guid id, HttpRequest request, UserController controller) => {
+                return controller.CreateSolicitation(id, request);
+            });    
                 // Envio do form para agendamento, o qual deve ser enviado para o tenant;
         }
     }
