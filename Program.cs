@@ -17,7 +17,9 @@ var connectionString = $"Host={host};Port={port};Database={name};Username={user}
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
 
+// Controllers
 builder.Services.AddScoped<UserController>();
+builder.Services.AddScoped<ScheduleController>();
 
 // Add Swagger services
 builder.Services.AddEndpointsApiExplorer();
