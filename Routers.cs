@@ -25,7 +25,6 @@ namespace backend_agendeFacil
             userGroup.MapPost("/{id:guid}", (Guid id, HttpRequest request, UserController controller) => {
                 return controller.CreateSolicitation(id, request);
             });    
-                // Envio do form para agendamento, o qual deve ser enviado para o tenant;
         }
     }
 }
