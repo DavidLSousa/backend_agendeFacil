@@ -1,6 +1,6 @@
 using backend_agendeFacil;
 using backend_agendeFacil.Data;
-using backend_agendeFacil.src.users;
+using backend_agendeFacil.src.controllers;
 using Microsoft.EntityFrameworkCore;
 
 DotNetEnv.Env.Load();
