@@ -24,8 +24,6 @@ namespace backend_agendeFacil.src.controllers
 
         public async Task<IResult> GetSolicitations(Guid id)
         {
-            // Retornar informações necessarias para mostrar as solicitações no frontend
-            // findbyid if(status Pedding)
             var data = await _context.Schedules
                 .Where(t => t.TenantId == id && t.Status == SolicitationStatus.PENDING)
                 .Include(t => t.User)
