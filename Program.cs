@@ -1,5 +1,6 @@
 using backend_agendeFacil;
 using backend_agendeFacil.Data;
+using backend_agendeFacil.src.users;
 using Microsoft.EntityFrameworkCore;
 
 DotNetEnv.Env.Load();
@@ -15,6 +16,8 @@ var pass = Environment.GetEnvironmentVariable("DB_PASS");
 var connectionString = $"Host={host};Port={port};Database={name};Username={user};Password={pass}";
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
+
+builder.Services.AddScoped<UserController>();
 
 // Add Swagger services
 builder.Services.AddEndpointsApiExplorer();
