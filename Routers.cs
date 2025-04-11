@@ -38,6 +38,11 @@ namespace backend_agendeFacil
 
             // User
             var userGroup = app.MapGroup("/api/user");
+            userGroup.MapGet("/tenants", 
+                async (UserController controller) => {
+                    return await controller.GetTenantsAsync();
+                })
+                .AllowAnonymous();
             userGroup.MapGet("/{id:guid}", 
                 async (Guid id, UserController controller) => {
                     return await controller.GetInfoTenantAsync(id);

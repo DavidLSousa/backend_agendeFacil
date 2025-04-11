@@ -3,6 +3,7 @@ using backend_agendeFacil.Data;
 using backend_agendeFacil.src.model.schedule;
 using backend_agendeFacil.src.model.tenant;
 using backend_agendeFacil.src.model.users;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend_agendeFacil.src.controllers
 {
@@ -55,7 +56,25 @@ namespace backend_agendeFacil.src.controllers
             _context.Schedules.Add(newSolicitation);
             await _context.SaveChangesAsync();
 
-            return Results.Json(new {body = "Solicitação criada com sucesso!"}, statusCode: 201);
+            return Results.Json(new { body = "Solicitação criada com sucesso!" }, statusCode: 201);
         }
+
+        public async Task<IResult> GetTenantsAsync()
+        {
+            var tenants = await _context.Tenants
+                .Select(t => new { t.Id, t.Name, t.Procedures })
+                .ToListAsync();
+            if (tenants == null) return Results.NotFound("Profissionais não encontrados.");
+
+            var tenantDTOs = tenants.Select(tenant => new TenantResponseDTO
+            {
+                Id = tenant.Id,
+                Name = tenant.Name,
+                Procedures = tenant.Procedures
+            }).ToList();
+
+            return Results.Json(tenantDTOs, statusCode: 200);
+        }
+
     }
 }
