@@ -14,7 +14,7 @@ namespace backend_agendeFacil.src.controllers
         public async Task<IResult> GetSchedule(Guid id)
         {
             var data = await _context.Schedules
-                .Where(t => t.TenantId == id && t.Status == SolicitationStatus.CONFIRMED)
+                .Where(t => t.TenantId == id && t.Status != SolicitationStatus.PENDING)
                 .Include(t => t.User)
                 .OrderBy(t => t.Date)
                 .ToListAsync();
