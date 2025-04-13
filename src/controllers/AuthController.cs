@@ -20,8 +20,14 @@ namespace backend_agendeFacil.src.controllers
 
             var token = tokenService.GenerateToken(tenant);
 
-            return Results.Json(new { token, tenantId = tenant.Id }, statusCode: 200);
-            // return Results.Json(new { token }).WithHeader("Authorization", $"Bearer {token}");
+            var tenantDTO = new TenantResponseDTO
+            {
+                Id = tenant.Id,
+                Name = tenant.Name,
+                Procedures = tenant.Procedures
+            };
+
+            return Results.Json(new { token, tenantDTO }, statusCode: 200);
         }
     }
 }
