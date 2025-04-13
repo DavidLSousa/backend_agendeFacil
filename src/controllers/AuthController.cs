@@ -15,6 +15,8 @@ namespace backend_agendeFacil.src.controllers
             var body = await reader.ReadToEndAsync();
             var data = JsonSerializer.Deserialize<LoginRequestDTO>(body);
 
+            if (data == null) return Results.BadRequest("Dados de login inválidos.");
+
             var tenant = _context.Tenants.FirstOrDefault(t => t.Email == data.Email);
             if (tenant == null) { return Results.NotFound("Profissional nao encontrado."); }
 
