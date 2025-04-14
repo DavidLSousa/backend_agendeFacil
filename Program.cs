@@ -37,10 +37,12 @@ builder.Services.AddAuthorization();
 // CORS
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("DevPolicy",
-        policy => policy.WithOrigins("http://localhost:5173")
+    options.AddPolicy("CorsPolicy", policy =>
+    {
+        policy.WithOrigins("http://localhost:4173")
             .AllowAnyMethod()
-            .AllowAnyHeader());
+            .AllowAnyHeader();
+    });
 });
 
 var host = Environment.GetEnvironmentVariable("DB_HOST");
@@ -64,13 +66,13 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-app.UseCors("DevPolicy");
+app.UseCors("CorsPolicy");
+
 app.UseAuthentication();
 app.UseAuthorization();
 
 Routers.Map(app);
 
-// Enable Swagger
 app.UseSwagger();
 app.UseSwaggerUI();
 
